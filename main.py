@@ -1,25 +1,17 @@
-from typing import Annotated, Union
 from fastapi import FastAPI, Depends
 from modules.db.database import Base, engine, SessionLocal
-from sqlalchemy.orm import Session
-from modules.models import user
+from modules.db import database
+from modules.router import user_router
 
 
-app = FastAPI()
-user.Base.metadata.create_all(bind=engine)
+app = FastAPI(
+    title="Bitbox API",
+    description="An API to manage church activities",
+    version="0.1.0"
+)
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+database.Base.metadata.create_all(bind=engine)
 
 
-db_dependency = Annotated[Session, Depends(get_db)]
-
-
-@app.get("/{item_id}")
-async def root(item_id: int, q: Union[int, str, bool] = None):
-    return {"message": f" item_id: {item_id}, some query: {q}"}
+app.include_router(user_router.router, prefix="/api/v1", tags=["Users"])

@@ -5,6 +5,7 @@ from modules.router import user_router
 
 
 app = FastAPI(
+
     title="Bitbox API",
     description="An API to manage church activities",
     version="0.1.0"

@@ -1,7 +1,7 @@
-from sqlalchemy import Column, String, ForeignKey, text, Enum as SQLAlchemyEnum
+from sqlalchemy import Column, String, text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
-from modules.db.database import Base
+from ..db.database import Base
 from sqlalchemy.orm import relationship
 
 

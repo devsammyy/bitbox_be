@@ -1,10 +1,10 @@
-from sqlalchemy import Column, String, ForeignKey, text, Enum as SQLAlchemyEnum, DDL, event
+from enum import Enum
+from ..db.database import Base
+from ..department.department_model import Department
+from sqlalchemy import Column, String, ForeignKey, text, Enum as SQLAlchemyEnum
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from enum import Enum
-from modules.db.database import Base
-from modules.models.department_model import Department
 
 
 class UserRole(Enum):

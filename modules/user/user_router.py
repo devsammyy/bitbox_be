@@ -12,18 +12,18 @@ router = APIRouter()
 
 
 @router.get("/users", status_code=status.HTTP_200_OK, response_model=List[UserOut])
-async def find_users(db: db_dependency, get_current_user: int = Depends(utils.get_current_user)):
-    print(get_current_user)
+async def find_users(db: db_dependency, current_user: int = Depends(utils.get_current_user)):
+    print(current_user)
     return db.query(User).all()
 
 
 @router.get("/user/{user_id}", status_code=status.HTTP_200_OK, response_model=UserOut)
-async def find_user(user_id: str, db: db_dependency):
+async def find_user(user_id: str, db: db_dependency, current_user: int = Depends(utils.get_current_user)):
     return db.query(User).filter(User.id == user_id).first()
 
 
 @router.post("/user/create", status_code=status.HTTP_201_CREATED, response_model=UserOut)
-async def create_user(user: UserIn, db: db_dependency):
+async def create_user(user: UserIn, db: db_dependency, current_user: int = Depends(utils.get_current_user)):
     existing_user = db.query(User).filter(
         User.username == user.username).first()
     existing_email = db.query(User).filter(User.email == user.email).first()
@@ -46,7 +46,7 @@ async def create_user(user: UserIn, db: db_dependency):
 
 
 @router.put("/user/update/{user_id}", status_code=status.HTTP_200_OK, response_model=UserOut)
-async def update_user(user_id: str, user: UserUpdateIn, db: db_dependency):
+async def update_user(user_id: str, user: UserUpdateIn, db: db_dependency, current_user: int = Depends(utils.get_current_user)):
     user_query = db.query(User).filter(
         User.id == user_id)
 
@@ -63,7 +63,7 @@ async def update_user(user_id: str, user: UserUpdateIn, db: db_dependency):
 
 
 @router.delete("/user/delete/{user_id}", status_code=status.HTTP_200_OK)
-async def delete_user(user_id: str, db: db_dependency, get_current_user: int = Depends(utils.get_current_user)):
+async def delete_user(user_id: str, db: db_dependency, current_user: int = Depends(utils.get_current_user)):
     user_query = db.query(User).filter(
         User.id == user_id)
 

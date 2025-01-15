@@ -23,7 +23,7 @@ async def find_user(user_id: str, db: db_dependency, current_user: int = Depends
 
 
 @router.post("/user/create", status_code=status.HTTP_201_CREATED, response_model=UserOut)
-async def create_user(user: UserIn, db: db_dependency, current_user: int = Depends(utils.get_current_user)):
+async def create_user(user: UserIn, db: db_dependency):
     existing_user = db.query(User).filter(
         User.username == user.username).first()
     existing_email = db.query(User).filter(User.email == user.email).first()

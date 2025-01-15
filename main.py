@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 import os
 import uvicorn
 from modules.auth import auth_router
-from modules.db.database import Base
+from modules.db.database import Base, engine
 from fastapi.middleware.cors import CORSMiddleware
 from modules.user import user_router
 
@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 
 app.include_router(user_router.router, prefix="/api/v1", tags=["Users"])
